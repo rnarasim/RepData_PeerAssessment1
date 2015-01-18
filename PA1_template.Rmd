@@ -39,8 +39,8 @@ hist(summary_by_day_df$TotalSteps, xlab="Total Steps", main = "Histogram of Tota
 
 ```
 
-Mean Steps taken by day: `r mean_summary_by_day`
-Median Steps taken by day: `r median_summary_by_day`
+1. Mean Steps taken by day: `r mean_summary_by_day`
+2. Median Steps taken by day: `r median_summary_by_day`
 
 
 ## What is the average daily activity pattern?
@@ -65,9 +65,10 @@ ggplot(data=summary_by_interval_df, aes(x=date_time, y=AverageSteps))+geom_line(
 
 
 ## pick the interval that has the max steps:
-summary_by_interval_df[summary_by_interval_df$AverageSteps == max(summary_by_interval_df$AverageSteps),] 
+max_steps_interval <- summary_by_interval_df[summary_by_interval_df$AverageSteps == max(summary_by_interval_df$AverageSteps),1] 
 ```
 
+1. Interval that has Max Steps is `r max_steps_interval`
 
 
 ## Imputing missing values
@@ -77,16 +78,14 @@ summary_by_interval_df[summary_by_interval_df$AverageSteps == max(summary_by_int
 ### reporting missing values
 
 ## count of rows with na values in the original dataset
-nrow(activity_info[is.na(activity_info$steps),])
+na_row_count <- nrow(activity_info[is.na(activity_info$steps),])
+```
+### Strategy to fix NA Values:
+ * We will use the average steps for the interval across all days to fill the NA values
+ * To fix an interval 110 that has an NA value we will use the average value for this interval that has been calculated in Question 3
+ * merge activity_info ( which is original data with na) to summary_by_interval_df which has the average value for each interval.
 
-## Strategy to fix NA Values:
-## We will use the average steps for the interval across all days to fill the NA values
-## To fix an interval 110 that has an NA value we will use the average value for this interval 
-## that has been calculated in Question 3
-
-# merge activity_info ( which is original data with na) to summary_by_interval_df which has
-# the average value for each interval.
-
+```{r ImputValues, echo=TRUE}
 merged_data <- merge(activity_info,summary_by_interval_df, by="interval")
 
 ## create a new column ImputtedSteps that will have the average steps if actual steps is na
@@ -117,20 +116,31 @@ hist(summary_by_day_imputted_df$TotalSteps , xlab="Total Steps", main = "Histogr
 
  
 ## mean and median of imputted data
-mean(summary_by_day_imputted$TotalSteps)
+mean_imput <- mean(summary_by_day_imputted$TotalSteps)
 
-median(summary_by_day_imputted$TotalSteps)
+median_imput <- median(summary_by_day_imputted$TotalSteps)
 
 ## Mean is the same for both
-mean(summary_by_day_imputted$TotalSteps) - mean(summary_by_day$TotalSteps)
+mean_diff <- mean(summary_by_day_imputted$TotalSteps) - mean(summary_by_day$TotalSteps)
 
 
 
 ## Median seems to be slightly higher using imputted values.
 
-median(summary_by_day_imputted$TotalSteps) - median(summary_by_day$TotalSteps)
+median_diff <- median(summary_by_day_imputted$TotalSteps) - median(summary_by_day$TotalSteps)
 
 ```
+
+1. Rows with NA values in the original dataset is: `r na_row_count`
+2. Mean after imputing the values: `r mean_imput`
+3. Median after imputing the missing values `r median_imput`
+4. There seems to be no difference in the mean between original and data that had imput values `r mean_diff`
+5. Median seems to be slightly higher than mean `r median_diff`
+
+
+
+
+
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -162,4 +172,5 @@ theme(strip.text.x = element_text(size=8, angle=0),                             
 
 ```
 
-#### Looks like the average by interval follow simiar pattern of activity. The week day activity seems to have higher averages compared to weekends.
+#### Looks like the average by interval follow simiar pattern of activity. 
+#### The week day activity seems to have higher averages compared to weekends.

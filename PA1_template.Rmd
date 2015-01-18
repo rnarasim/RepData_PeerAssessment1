@@ -33,6 +33,7 @@ summary_by_day_df <- data.frame(summary_by_day)
 # histogram of total steps
 hist(summary_by_day_df$TotalSteps, xlab="Total Steps", main = "Histogram of Total Steps")
 
+
  mean_summary_by_day <- mean(summary_by_day_df$TotalSteps)
 
  median_summary_by_day <- median(summary_by_day_df$TotalSteps)

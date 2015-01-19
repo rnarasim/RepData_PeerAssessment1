@@ -86,6 +86,7 @@ na_row_count <- nrow(activity_info[is.na(activity_info$steps),])
  * To fix an interval say interval - 110 that has an NA value, we will use the average value for this interval that has been calculated in Question 3
  * merge activity_info ( which is original data with na) to summary_by_interval_df which has the average value for each interval.
 
+
 ```{r ImputValues, echo=TRUE}
 merged_data <- merge(activity_info,summary_by_interval_df, by="interval")
 

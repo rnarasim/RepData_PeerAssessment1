@@ -98,7 +98,7 @@ na_row_count <- nrow(activity_info[is.na(activity_info$steps),])
 ```
 ### Strategy to fix NA Values:
  * We will use the average steps for the interval across all days to fill the NA values
- * To fix an interval 110 that has an NA value we will use the average value for this interval that has been calculated in Question 3
+ * To fix an interval say interval - 110 that has an NA value, we will use the average value for this interval that has been calculated in Question 3
  * merge activity_info ( which is original data with na) to summary_by_interval_df which has the average value for each interval.
 
 
